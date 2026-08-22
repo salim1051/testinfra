@@ -36,4 +36,23 @@ stages:
             provider: 'azurerm'
             command: 'apply'
             environmentServiceNameAzureRM: 'salim_svc'
-
+  - stage:
+    jobs:
+      - job:
+        steps:
+        - task: TerraformInstaller@1
+          inputs:
+            terraformVersion: 'latest'
+        - task: TerraformTask@5
+          inputs:
+            provider: 'azurerm'
+            command: 'init'
+            backendServiceArm: 'salim_svc'
+            backendAzureRmStorageAccountName: 'storagetestpipeline'
+            backendAzureRmContainerName: 'storagecontainer'
+            backendAzureRmKey: 'terraform.tfstate'
+        - task: TerraformTask@5
+          inputs:
+            provider: 'azurerm'
+            command: 'apply'
+            environmentServiceNameAzureRM: 'salim_svc'
